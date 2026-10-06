@@ -1,0 +1,68 @@
+@if (isLoading()) {
+  <!-- Skeleton Loader for Job Card -->
+  <div
+    class="bg-[#201A23]/5 p-6 space-y-4 border-l-4 border-[#201A23]/20 transition-all duration-300"
+  >
+    <div class="flex items-center justify-between">
+      <div class="h-3 w-32 skeleton-shimmer"></div>
+      <div class="h-3 w-16 skeleton-shimmer"></div>
+    </div>
+    <div class="h-6 w-3/4 skeleton-shimmer"></div>
+    <div class="flex gap-2 pt-2">
+      <div class="h-5 w-20 skeleton-shimmer"></div>
+      <div class="h-5 w-24 skeleton-shimmer"></div>
+      <div class="h-5 w-16 skeleton-shimmer"></div>
+    </div>
+  </div>
+} @else if (job()) {
+  <div
+    (click)="onClick()"
+    [class]="
+      isSelected()
+        ? 'bg-[#201A23] text-[#D7D6D6] p-6 border-l-4 border-[#201A23] shadow-lg transform -translate-y-0.5'
+        : 'bg-[#201A23]/5 hover:bg-[#201A23]/10 text-[#201A23] p-6 border-l-4 border-transparent hover:border-[#201A23]'
+    "
+    class="cursor-pointer transition-all duration-200 font-mono space-y-4 group"
+  >
+    <div class="flex justify-between flex-1 min-w-0">
+      <!-- Top Meta Line -->
+      <div class="flex items-center text-xs opacity-70">
+        <span class="font-bold uppercase tracking-wider">{{ job()?.location }}</span>
+
+        @if (job()?.location && job()?.remote) {
+          <span class="mx-3">•</span>
+        }
+
+        @if (job()?.remote) {
+          <span class="text-emerald-700 font-bold">REMOTE</span>
+        }
+      </div>
+
+      <!-- Match Score & Action -->
+      <div class="flex flex-col items-end justify-between self-stretch shrink-0 text-xs">
+        <div class="px-2.5 py-1 bg-[#201A23]/10 font-bold">
+          {{ job()?.postedAt | timeAgo }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Title -->
+    <div class="">
+      <h3 class="text-base md:text-lg font-bold font-['Syne'] tracking-tight truncate">
+        {{ job()?.title }}
+      </h3>
+      <span class="font-bold uppercase tracking-wider">{{ job()?.company }}</span>
+    </div>
+
+    <div class="flex justify-between items-center">
+      @if (job()?.salary) {
+        <span class="text-xs px-2.5 py-1 bg-primary text-secondary font-semibold">
+          {{ job()?.salary | formatSalary }}
+        </span>
+      }
+      <span class="ml-auto"
+        >Source: <span class="font-bold">{{ job()?.source }}</span></span
+      >
+    </div>
+  </div>
+}

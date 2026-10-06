@@ -1,3 +1,51 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import 'tailwindcss';
+
+@theme {
+  --color-primary: #201A23;
+  --color-secondary: #A36B4E;
+}
+
+@layer base {
+  body {
+    background-color: #D7D6D6;
+    color: #201A23;
+    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Syne', sans-serif;
+}
+
+/* Skeleton loader shimmer animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(90deg, rgba(32, 26, 35, 0.08) 25%, rgba(32, 26, 35, 0.16) 50%, rgba(32, 26, 35, 0.08) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Custom technical scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #D7D6D6;
+}
+::-webkit-scrollbar-thumb {
+  background: #201A23;
+  border-radius: 0px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #4A434F;
+}
