@@ -27,27 +27,27 @@ export class TimeAgoPipe implements PipeTransform {
 
     // Years
     const years = Math.floor(seconds / intervals['y']);
-    if (years >= 1) return `${years}y`;
+    if (years >= 1) return `${years} y`;
 
     // Months
     const months = Math.floor(seconds / intervals['m']);
-    if (months >= 1) return `${months}m`;
+    if (months >= 1) return `${months} m`;
 
     // Weeks
     const weeks = Math.floor(seconds / intervals['w']);
-    if (weeks >= 1) return `${weeks}w`;
+    if (weeks >= 1) return `${weeks} w`;
 
     // Days
     const days = Math.floor(seconds / intervals['d']);
-    if (days >= 1) return `${days}d`;
+    if (days >= 1) return `${days} d`;
 
     // Hours
     const hours = Math.floor(seconds / intervals['h']);
-    if (hours >= 1) return `${hours}h`;
+    if (hours >= 1) return `${hours} h`;
 
     // Minutes
     const minutes = Math.floor(seconds / 60);
-    if (minutes >= 1) return `${minutes}min`;
+    if (minutes >= 1) return `${minutes} min`;
 
     return 'Just now';
   }

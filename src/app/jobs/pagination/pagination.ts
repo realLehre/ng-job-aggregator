@@ -4,28 +4,28 @@ import { Component, computed, input, output, signal } from '@angular/core';
   selector: 'app-pagination',
   imports: [],
   template: `
-    <div class="flex flex-col md:flex-row items-center justify-between gap-4 py-4 px-6 bg-[#201A23]/5 border-t border-[#201A23]/15 font-mono text-xs">
-      
+    <div
+      class="flex flex-col md:flex-row items-center justify-between gap-4 py-4 px-6 bg-[#201A23]/5 border-t border-[#201A23]/15 font-mono text-xs"
+    >
       <!-- Items per page selector -->
       <div class="flex items-center gap-3">
-        <span class="text-[#201A23]/70 uppercase tracking-wider text-[10px]">ITEMS_PER_PAGE:</span>
-        <select 
+        <span class="text-[#201A23]/70 uppercase tracking-wider text-[10px]">Jobs/Page:</span>
+        <select
           [value]="pageSize()"
           (change)="onPageSizeChange($event)"
           class="bg-[#201A23]/5 border-0 border-b-2 border-[#201A23]/40 px-2.5 py-1 text-xs text-[#201A23] focus:outline-none focus:border-[#201A23] cursor-pointer"
         >
           @for (size of pageSizeOptions; track size) {
-            <option [value]="size">{{ size }}</option>
+            <option [value]="size" [selected]="size === pageSize()">{{ size }}</option>
           }
         </select>
-        <span class="text-[#201A23]/60 text-[10px]">
-          ({{ totalItems() }} total signals)
-        </span>
+        <span class="text-[#201A23]/60 text-[10px]"> ({{ totalItems() }} total jobs) </span>
       </div>
 
       <!-- Reference Layout Pagination Container -->
-      <div class="flex items-center gap-2 bg-[#D7D6D6] border border-[#201A23]/20 px-3 py-2 shadow-sm">
-        
+      <div
+        class="flex items-center gap-2 bg-[#D7D6D6] border border-[#201A23]/20 px-3 py-2 shadow-sm"
+      >
         <!-- Previous Arrow Button -->
         <button
           (click)="onPageChange(currentPage() - 1)"
@@ -44,9 +44,11 @@ import { Component, computed, input, output, signal } from '@angular/core';
             } @else {
               <button
                 (click)="onPageChange(Number(p))"
-                [class]="currentPage() === Number(p)
-                  ? 'w-8 h-8 flex items-center justify-center bg-[#201A23] text-[#D7D6D6] font-bold shadow'
-                  : 'w-8 h-8 flex items-center justify-center bg-[#201A23]/5 text-[#201A23] hover:bg-[#201A23]/15 transition'"
+                [class]="
+                  currentPage() === Number(p)
+                    ? 'w-8 h-8 flex items-center justify-center bg-[#201A23] text-[#D7D6D6] font-bold shadow'
+                    : 'w-8 h-8 flex items-center justify-center bg-[#201A23]/5 text-[#201A23] hover:bg-[#201A23]/15 transition'
+                "
               >
                 {{ p }}
               </button>
@@ -63,27 +65,10 @@ import { Component, computed, input, output, signal } from '@angular/core';
         >
           &rsaquo;
         </button>
-
-        <!-- Go to: [ input ] -->
-        <div class="flex items-center gap-1.5 pl-3 border-l border-[#201A23]/20 text-[#201A23]">
-          <span class="text-[11px] opacity-70">Go to:</span>
-          <input
-            type="number"
-            min="1"
-            [max]="totalPages()"
-            [value]="gotoInput()"
-            (input)="gotoInput.set(($any($event.target).value))"
-            (keydown.enter)="onGotoPage()"
-            placeholder="e.g. {{ totalPages() }}"
-            class="w-16 bg-[#201A23]/5 border border-[#201A23]/30 px-2 py-1 text-xs text-[#201A23] focus:outline-none focus:border-[#201A23]"
-          />
-        </div>
-
       </div>
-
     </div>
   `,
-  styles: ``
+  styles: ``,
 })
 export class Pagination {
   readonly currentPage = input<number>(1);

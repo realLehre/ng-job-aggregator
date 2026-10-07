@@ -55,7 +55,7 @@
     </div>
 
     <div class="flex justify-between items-center">
-      @if (job()?.salary) {
+      @if (job()?.salary && job()?.salary?.min) {
         <span class="text-xs px-2.5 py-1 bg-primary text-secondary font-semibold">
           {{ job()?.salary | formatSalary }}
         </span>

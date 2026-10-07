@@ -29,4 +29,12 @@ describe('Jobs', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should toggle mobile filters', () => {
+    expect(component.showMobileFilters()).toBe(false);
+    component.toggleMobileFilters();
+    expect(component.showMobileFilters()).toBe(true);
+    component.toggleMobileFilters();
+    expect(component.showMobileFilters()).toBe(false);
+  });
 });

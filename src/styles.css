@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
 @import 'tailwindcss';
 
 @theme {
   --color-primary: #201A23;
   --color-secondary: #A36B4E;
+  --font-heading: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 @layer base {
@@ -15,7 +17,7 @@
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
 }
 
 /* Skeleton loader shimmer animation */

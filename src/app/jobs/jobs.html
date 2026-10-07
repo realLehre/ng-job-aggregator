@@ -1,80 +1,114 @@
 <section class="max-w-7xl mx-auto px-6 py-12 font-mono text-xs">
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-    <!-- LEFT: Redesigned Modern Filter Rail (Col 4) -->
-    <aside
-      class="lg:col-span-4 space-y-6 bg-[#201A23]/5 p-6 border-l-2 border-[#201A23] sticky top-20"
+  <!-- Mobile Filter Toggle Button -->
+  <div class="block md:hidden mb-6">
+    <button
+      (click)="toggleMobileFilters()"
+      class="w-full bg-[#201A23]/5 border-2 border-[#201A23] p-3 text-[#201A23] font-bold flex items-center justify-between hover:bg-[#201A23]/10 transition cursor-pointer"
     >
-      <div class="flex items-center justify-between border-b border-[#201A23]/15 pb-3">
-        <span class="text-[11px] uppercase tracking-widest text-[#201A23] font-bold font-['Syne']">
-          [ FILTER_TELEMETRY ]
-        </span>
-        <button
-          (click)="resetFilters()"
-          class="text-[10px] text-[#201A23] font-bold hover:underline uppercase"
+      <span class="flex items-center gap-2 font-['Syne']">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
         >
-          CLEAR
-        </button>
-      </div>
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+        </svg>
+        FILTERS
+      </span>
+      <span>{{ showMobileFilters() ? '[- HIDE]' : '[+ SHOW]' }}</span>
+    </button>
+  </div>
 
-      <!-- Remote Toggle -->
-      <div>
-        <label
-          class="flex items-center justify-between cursor-pointer text-[#201A23] bg-[#201A23]/5 p-3 hover:bg-[#201A23]/10 transition"
-        >
-          <span class="font-bold">Remote Only</span>
-          <input
-            type="checkbox"
-            [checked]="jobsService.remoteOnly()"
-            (change)="toggleRemote()"
-            class="w-4 h-4 rounded-none bg-[#D7D6D6] border-[#201A23] text-[#201A23] focus:ring-0 cursor-pointer"
-          />
-        </label>
-      </div>
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+    <!-- LEFT: Redesigned Modern Filter Rail (Col 4) with Smooth Show/Hide Animation -->
+    <aside
+      class="md:col-span-4 bg-[#201A23]/5 border-[#201A23] sticky top-20 overflow-hidden transition-all duration-300 ease-in-out"
+      [style.max-height]="isDesktop() || showMobileFilters() ? '1000px' : '0px'"
+      [style.opacity]="isDesktop() || showMobileFilters() ? '1' : '0'"
+      [style.padding]="isDesktop() || showMobileFilters() ? '1.5rem' : '0px'"
+      [style.border-left-width]="isDesktop() || showMobileFilters() ? '2px' : '0px'"
+    >
+      <div class="space-y-6">
+        <div class="flex items-center flex-wrap justify-between border-b border-[#201A23]/15 pb-3">
+          <span
+            class="hidden md:inline text-[11px] uppercase tracking-widest text-[#201A23] font-bold font-['Syne']"
+          >
+            FILTERS
+          </span>
+          <button
+            (click)="resetFilters()"
+            class="ml-auto text-[10px] text-[#201A23] font-bold hover:underline uppercase"
+          >
+            CLEAR
+          </button>
+        </div>
 
-      <!-- Source Dropdown Filter -->
-      <div class="space-y-2">
-        <label class="text-[10px] uppercase tracking-wider opacity-70 block">Job Source</label>
-        <select
-          [value]="jobsService.selectedSource()"
-          (change)="onSourceChange($event)"
-          class="w-full bg-[#201A23]/5 border-0 border-b-2 border-[#201A23]/30 px-3 py-2.5 text-xs text-[#201A23] focus:outline-none focus:border-[#201A23] cursor-pointer"
-        >
-          @for (src of jobsService.sources; track src) {
-            <option [value]="src">{{ src }}</option>
-          }
-        </select>
-      </div>
+        <!-- Remote Toggle -->
+        <div>
+          <label
+            class="flex items-center justify-between cursor-pointer text-[#201A23] bg-[#201A23]/5 p-3 hover:bg-[#201A23]/10 transition"
+          >
+            <span class="font-bold">Remote Only</span>
+            <input
+              type="checkbox"
+              [checked]="jobsService.remoteOnly()"
+              (change)="toggleRemote()"
+              class="w-4 h-4 rounded-none bg-[#D7D6D6] border-[#201A23] text-[#201A23] focus:ring-0 cursor-pointer"
+            />
+          </label>
+        </div>
 
-      <!-- Date-Range Filter -->
-      <div class="space-y-3 pt-2 border-t border-[#201A23]/15">
-        <label class="text-[10px] uppercase tracking-wider opacity-70 block font-bold"
-          >Date Range Filter</label
-        >
+        <!-- Source Dropdown Filter -->
         <div class="space-y-2">
-          <div>
-            <span class="text-[9px] opacity-60 block mb-1">From Date</span>
-            <input
-              type="date"
-              [value]="jobsService.startDate()"
-              (change)="onStartDateChange($event)"
-              class="w-full bg-[#201A23]/5 border-0 border-b-2 border-[#201A23]/30 px-3 py-2 text-xs text-[#201A23] focus:outline-none focus:border-[#201A23]"
-            />
-          </div>
-          <div>
-            <span class="text-[9px] opacity-60 block mb-1">To Date</span>
-            <input
-              type="date"
-              [value]="jobsService.endDate()"
-              (change)="onEndDateChange($event)"
-              class="w-full bg-[#201A23]/5 border-0 border-b-2 border-[#201A23]/30 px-3 py-2 text-xs text-[#201A23] focus:outline-none focus:border-[#201A23]"
-            />
+          <label class="text-[10px] uppercase tracking-wider opacity-70 block">Job Source</label>
+          <select
+            [value]="jobsService.selectedSource()"
+            (change)="onSourceChange($event)"
+            class="w-full bg-[#201A23]/5 border-0 border-b-2 border-[#201A23]/30 px-3 py-2.5 text-xs text-[#201A23] focus:outline-none focus:border-[#201A23] cursor-pointer"
+          >
+            @for (src of jobsService.sources; track src) {
+              <option [value]="src">{{ src }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- Date-Range Filter -->
+        <div class="space-y-3 pt-2 border-t border-[#201A23]/15">
+          <label class="text-[10px] uppercase tracking-wider opacity-70 block font-bold"
+            >Date Range Filter</label
+          >
+          <div class="space-y-2">
+            <div>
+              <span class="text-[9px] opacity-60 block mb-1">From Date</span>
+              <input
+                type="date"
+                [value]="jobsService.startDate()"
+                (change)="onStartDateChange($event)"
+                class="w-full bg-[#201A23]/5 border-0 border-b-2 border-[#201A23]/30 px-3 py-2 text-xs text-[#201A23] focus:outline-none focus:border-[#201A23]"
+              />
+            </div>
+            <div>
+              <span class="text-[9px] opacity-60 block mb-1">To Date</span>
+              <input
+                type="date"
+                [value]="jobsService.endDate()"
+                (change)="onEndDateChange($event)"
+                class="w-full bg-[#201A23]/5 border-0 border-b-2 border-[#201A23]/30 px-3 py-2 text-xs text-[#201A23] focus:outline-none focus:border-[#201A23]"
+              />
+            </div>
           </div>
         </div>
       </div>
     </aside>
 
     <!-- RIGHT: Main Job Feed & Cards (Col 8) -->
-    <main class="lg:col-span-8 space-y-4">
+    <main class="md:col-span-8 space-y-4">
       <!-- Search Bar -->
       <div class="relative">
         <div
@@ -107,12 +141,9 @@
       <!-- Feed Status Line -->
       <div class="flex items-center justify-between px-1 text-[11px] opacity-70">
         <span
-          >MATCHING SIGNALS:
+          >JOBS FOUND:
           <strong class="text-primary font-bold">{{ jobsService.totalJobs() }}</strong></span
         >
-        <span class="flex items-center gap-1.5 font-bold">
-          <span class="w-1.5 h-1.5 bg-emerald-600 animate-pulse"></span> LIVE_FEED
-        </span>
       </div>
 
       <!-- Job Cards Grid with Skeleton Loaders & Pagination Integration -->
@@ -141,12 +172,12 @@
       } @else {
         <div class="bg-primary/5 border-l-4 border-primary p-12 text-center space-y-3">
           <p class="text-xs opacity-70">No jobs found.</p>
-          <button
-            (click)="resetFilters()"
-            class="text-primary font-bold cursor-pointer hover:underline text-xs"
-          >
-            Reset queries
-          </button>
+          <!--          <button-->
+          <!--            (click)="resetFilters()"-->
+          <!--            class="text-primary font-bold cursor-pointer hover:underline text-xs"-->
+          <!--          >-->
+          <!--            Reset queries-->
+          <!--          </button>-->
         </div>
       }
     </main>
