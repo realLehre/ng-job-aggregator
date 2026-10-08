@@ -1,0 +1,77 @@
+<div class="space-y-6">
+  <!-- PDF Upload Zone -->
+  <div class="space-y-3">
+    <div class="text-sm uppercase tracking-wider font-bold opacity-70">Upload Resume (PDF)</div>
+
+    @if (!analysisService.selectedFile()) {
+      <div
+        class="border-2 border-dashed border-[#201A23]/40 p-8 text-center cursor-pointer transition-all bg-white hover:bg-white/90"
+        [class.dragging]="isDragging()"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+        (click)="fileInput.click()"
+      >
+        <input
+          #fileInput
+          type="file"
+          accept=".pdf"
+          class="hidden"
+          (change)="onFileSelected($event)"
+        />
+        <div class="flex flex-col items-center space-y-2">
+          <svg
+            class="w-8 h-8 opacity-60 text-[#201A23]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+            ></path>
+          </svg>
+          <div class="text-sm font-bold">
+            Drag and drop your PDF resume here, or
+            <span class="text-secondary underline">browse files</span>
+          </div>
+          <div class="text-[12px] text-secondary">
+            Your resume text is analyzed in real time and is never saved
+          </div>
+        </div>
+      </div>
+    } @else {
+      <!-- Selected File Card -->
+      <div
+        class="flex items-center justify-between p-4 bg-white border border-[#201A23]/20 shadow-sm"
+      >
+        <div class="flex items-center space-x-3">
+          <div class="p-2 bg-red-100 text-red-700 font-bold text-[10px] uppercase">PDF</div>
+          <div>
+            <div class="font-bold text-xs text-[#201A23]">
+              {{ analysisService.selectedFile()?.name }}
+            </div>
+            <div class="text-[10px] opacity-60">
+              {{ ((analysisService.selectedFile()?.size || 0) / 1024 / 1024).toFixed(2) }} MB
+            </div>
+          </div>
+        </div>
+        <button
+          type="button"
+          (click)="analysisService.removeResume()"
+          class="text-xs font-bold text-red-600 hover:underline px-2.5 py-1 bg-red-50 border border-red-200 cursor-pointer"
+        >
+          REMOVE
+        </button>
+      </div>
+    }
+
+    @if (analysisService.uploadError()) {
+      <div class="p-2 bg-red-100 border-l-2 border-red-600 text-red-800 text-[10px] font-bold">
+        {{ analysisService.uploadError() }}
+      </div>
+    }
+  </div>
+</div>

@@ -26,7 +26,7 @@ export interface Job {
   title: string;
   updatedAt: string;
   url: string;
-  salary?: string | {
+  salary?: {
     min?: number;
     max?: number;
     currency?: string;
@@ -42,7 +42,7 @@ export interface JobCardData {
   skills: string[];
   source: string;
   title: string;
-  salary?: string | {
+  salary?: {
     min?: number;
     max?: number;
     currency?: string;
@@ -60,6 +60,14 @@ export interface Data {
 
 export interface ResponseData {
   data: Data;
+}
+
+export interface JobAnalysisResult {
+  score: number;
+  summary: string;
+  matchedSkills: string[];
+  missingSkills: string[];
+  recommendations: string[];
 }
 
 export interface JobApiResponse {

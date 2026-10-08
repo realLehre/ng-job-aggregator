@@ -1,0 +1,32 @@
+<div class="mt-6 p-6 bg-[#201A23] text-[#D7D6D6] shadow-inner relative overflow-hidden">
+  <div class="space-y-1 font-mono text-[12px]">
+    <div class="flex items-center gap-2 text-emerald-400">
+      <span>&gt;</span>
+      <span>{{ steps()[analysisStepIndex()] }}</span>
+    </div>
+    <div class="flex space-x-4 mt-3 items-center">
+      <svg class="w-6 h-6 text-amber-400 animate-spin" fill="none" viewBox="0 0 24 24">
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        ></circle>
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        ></path>
+      </svg>
+
+      <div class="w-full bg-white/10 h-1.5 overflow-hidden">
+        <div
+          class="bg-amber-400 h-full w-2/3 animate-[shimmer_1s_infinite] transition-all duration-500 ease-out"
+          [style.width]="progressBarWidth()"
+        ></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -31,19 +31,8 @@ export interface JobDetailApiResponse {
   providedIn: 'root',
 })
 export class JobsService {
+  private readonly apiUrl = environment.apiUrl + 'jobs/';
   readonly sources = ['All', 'Arbeitnow', 'Direct', 'Himalayas', 'RemoteOK'];
-  // readonly locations = toSignal(this.locationService.getCountries(), {
-  //   initialValue: [
-  //     'All',
-  //     'Germany',
-  //     'United States',
-  //     'United Kingdom',
-  //     'Canada',
-  //     'Geneva',
-  //     'Oxford',
-  //   ],
-  // });
-
   readonly searchQuery = signal<string>('');
   readonly selectedLocation = signal<string>('All');
   readonly remoteOnly = signal<boolean>(false);
@@ -83,7 +72,7 @@ export class JobsService {
     if (end) params['endDate'] = end;
 
     return {
-      url: `${environment.apiUrl}`,
+      url: this.apiUrl,
       params,
     };
   });
@@ -94,7 +83,7 @@ export class JobsService {
     console.log(id);
     if (!id) return undefined;
     return {
-      url: `${environment.apiUrl}${id}`,
+      url: `${this.apiUrl}${id}`,
     };
   });
 

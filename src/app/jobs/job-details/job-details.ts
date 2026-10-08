@@ -5,10 +5,11 @@ import { Job } from '../jobs.model';
 import { JobsService } from '../jobs.service';
 import { TimeAgoPipe } from '../../pipes/date-posted.pipe';
 import { FormatSalaryPipe } from '../../pipes/salary.pipe';
+import { JobAnalysis } from './job-analysis/job-analysis';
 
 @Component({
   selector: 'app-job-details',
-  imports: [RouterLink, TimeAgoPipe, FormatSalaryPipe, CommonModule],
+  imports: [RouterLink, TimeAgoPipe, FormatSalaryPipe, CommonModule, JobAnalysis],
   templateUrl: './job-details.html',
   styleUrl: './job-details.scss',
 })

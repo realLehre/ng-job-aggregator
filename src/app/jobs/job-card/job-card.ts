@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { JobCardData } from '../jobs.model';
+import { Job, JobCardData } from '../jobs.model';
 import { FormatSalaryPipe } from '../../pipes/salary.pipe';
 import { TimeAgoPipe } from '../../pipes/date-posted.pipe';
 
@@ -10,7 +10,7 @@ import { TimeAgoPipe } from '../../pipes/date-posted.pipe';
   styleUrl: './job-card.scss',
 })
 export class JobCard {
-  readonly job = input<JobCardData | null>(null);
+  readonly job = input<Job | null>(null);
   readonly isSelected = input<boolean>(false);
   readonly isLoading = input<boolean>(false);
 
