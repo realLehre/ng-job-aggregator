@@ -71,7 +71,6 @@ export class JobsService {
   // httpResource for individual job details fetched by ID (endpoint: url/id)
   readonly jobDetailsResource = httpResource<any>(() => {
     const id = this.selectedJobId();
-    console.log(id);
     if (!id) return undefined;
     return {
       url: `${this.apiUrl}${id}`,

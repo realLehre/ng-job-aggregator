@@ -47,7 +47,6 @@ export class JobAnalysisService {
 
   runAnalysis(job: Job) {
     const file = this.selectedFile();
-    console.log(file);
 
     if (!file) return;
     const formData = new FormData();
