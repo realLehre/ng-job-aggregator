@@ -1,0 +1,87 @@
+<div class="min-h-screen bg-[#D7D6D6] text-[#201A23] font-mono py-12 px-6">
+  <div class="max-w-7xl mx-auto space-y-12">
+    <!-- Breadcrumb / Header info -->
+    <div class="flex items-center justify-between border-b border-[#201A23]/15 pb-6">
+      <div>
+        <h1 class="text-2xl md:text-5xl font-black font-['Syne'] tracking-tight">
+          AGGREGATION SOURCES
+        </h1>
+      </div>
+      <a
+        routerLink="/"
+        class="hidden sm:inline-flex items-center gap-2 px-4 py-2 border border-[#201A23] text-xs font-bold hover:bg-[#201A23] hover:text-[#D7D6D6] transition"
+      >
+        <span>&larr;</span> BACK TO JOBS
+      </a>
+    </div>
+
+    <!-- Intro & Attribution -->
+    <div
+      class="bg-[#201A23] text-[#D7D6D6] p-8 md:p-12 relative overflow-hidden shadow-xl border-l-4 border-[#A36B4E]"
+    >
+      <div
+        class="absolute right-0 top-0 translate-x-12 -translate-y-12 w-64 h-64 rounded-full bg-[#A36B4E]/15 pointer-events-none blur-2xl"
+      ></div>
+      <div class="max-w-3xl space-y-4 relative z-10">
+        <h2 class="text-2xl md:text-3xl font-black font-['Syne'] leading-tight">
+          Powered by Premier Global Career Networks
+        </h2>
+        <p class="text-sm text-[#D7D6D6]/80 leading-relaxed">
+          JOB_AGGREGATOR indexes, standardizes, and synthesizes engineering positions in real time
+          from the world's most trusted remote and global job boards. We proudly attribute all
+          underlying listings to their respective creators and platform registries. Explore our
+          primary data sources below.
+        </p>
+      </div>
+    </div>
+
+    <!-- Sources Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (source of sourcesList; track source.nodeId) {
+        <div
+          class="bg-white border border-[#201A23]/20 p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition group"
+        >
+          <div class="space-y-4">
+            <div
+              class="flex items-center justify-between text-xs border-b border-[#201A23]/10 pb-3"
+            >
+              <span class="font-mono text-[#A36B4E] font-bold">{{ source.nodeId }}</span>
+              <span class="bg-[#201A23]/5 px-2 py-0.5 text-[10px] text-[#201A23]/70 uppercase">{{
+                source.category
+              }}</span>
+            </div>
+            <h3
+              class="text-xl font-bold font-['Syne'] text-[#201A23] group-hover:text-[#A36B4E] transition"
+            >
+              {{ source.name }}
+            </h3>
+            <p class="text-xs text-[#201A23]/70 leading-relaxed">
+              {{ source.description }}
+            </p>
+          </div>
+          <div
+            class="mt-6 pt-4 border-t border-[#201A23]/10 flex items-center justify-between text-xs"
+          >
+            <a
+              [href]="source.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 font-bold text-[#201A23] hover:text-[#A36B4E] transition"
+            >
+              <span>VISIT</span>
+              <span class="text-sm">&nearr;</span>
+            </a>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Footer Note -->
+    <div class="text-center text-xs text-[#201A23]/60 pt-6 border-t border-[#201A23]/15">
+      <p>
+        All trademarks, logos and brand names are the property of their respective owners.
+        JOB_AGGREGATOR is an independent syndication client.
+      </p>
+    </div>
+  </div>
+</div>

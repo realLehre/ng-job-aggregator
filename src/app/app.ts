@@ -9,6 +9,4 @@ import { Footer } from './footer/footer';
   styleUrl: './app.scss',
   templateUrl: './app.html',
 })
-export class App {
-  protected readonly title = signal('ng-job-aggregator');
-}
+export class App {}

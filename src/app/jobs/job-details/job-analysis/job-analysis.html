@@ -3,13 +3,23 @@
   <button
     type="button"
     (click)="openAnalysisDialog()"
-    class="flex items-center gap-2.5 bg-[#201A23] hover:bg-[#4A434F] text-[#D7D6D6] px-5 py-3.5 shadow-2xl font-mono text-xs font-bold tracking-wider border-2 border-amber-400 transition-all transform hover:scale-105 cursor-pointer"
+    class="flex items-center gap-2.5 bg-[#201A23] hover:bg-[#4A434F] text-[#D7D6D6] px-3 py-2 md:px-5 md:py-3.5 shadow-2xl font-mono text-xs font-bold tracking-wider border-2 border-amber-400 transition-all transform hover:scale-105 cursor-pointer"
   >
     <!-- Fancy Sparkle / Brain Icon -->
-    <svg class="w-5 h-5 text-amber-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+    <svg
+      class="w-5 h-5 text-amber-400 animate-pulse"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+      ></path>
     </svg>
     <span>AI ANALYSIS</span>
-    <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+    <span class="hidden md:block w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
   </button>
 </div>

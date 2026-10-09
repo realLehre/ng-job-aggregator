@@ -1,4 +1,4 @@
-import { Component, computed, input, inject, OnInit, effect } from '@angular/core';
+import { Component, input, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Job } from '../jobs.model';
@@ -21,17 +21,20 @@ export class JobDetails implements OnInit {
   readonly isLoadingInput = input<boolean>(false, { alias: 'isLoading' });
   readonly isLoading = this.jobsService.isJobDetailsLoading;
   readonly job = this.jobsService.selectedJob;
-
-  constructor() {
-    effect(() => {
-      console.log('job details', this.job());
-    });
-  }
+  readonly jobDetailsError = this.jobsService.jobDetailsError;
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.jobsService.selectedJobId.set(id);
+    }
+  }
+
+  retryLoad() {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.jobsService.selectedJobId.set(null);
+      setTimeout(() => this.jobsService.selectedJobId.set(id), 50);
     }
   }
 }

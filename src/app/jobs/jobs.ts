@@ -59,12 +59,6 @@ export class Jobs {
     this.searchSubject.next(val);
   }
 
-  onLocationChange(event: Event) {
-    const val = (event.target as HTMLSelectElement).value;
-    this.jobsService.selectedLocation.set(val);
-    this.jobsService.page.set(1);
-  }
-
   onSourceChange(event: Event) {
     const val = (event.target as HTMLSelectElement).value;
     this.jobsService.selectedSource.set(val);
@@ -85,11 +79,6 @@ export class Jobs {
 
   toggleRemote() {
     this.jobsService.remoteOnly.update((v) => !v);
-    this.jobsService.page.set(1);
-  }
-
-  setSkill(sk: string) {
-    this.jobsService.selectedSkill.set(sk);
     this.jobsService.page.set(1);
   }
 

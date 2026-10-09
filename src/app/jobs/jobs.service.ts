@@ -2,7 +2,6 @@ import { Injectable, signal, computed } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Job } from './jobs.model';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 export interface JobApiResponse {
   status: string;
@@ -15,14 +14,6 @@ export interface JobApiResponse {
       limit: number;
       totalPages: number;
     };
-  };
-  message: string;
-}
-
-export interface JobDetailApiResponse {
-  status: string;
-  responseData: {
-    data: Job;
   };
   message: string;
 }

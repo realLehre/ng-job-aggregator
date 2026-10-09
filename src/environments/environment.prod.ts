@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.ng-job-aggregator.com/api'
+  apiUrl: 'https://job-aggregator-api-67sz.onrender.com/api/',
 };

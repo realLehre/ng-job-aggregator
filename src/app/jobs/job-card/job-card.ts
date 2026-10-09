@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { Job, JobCardData } from '../jobs.model';
+import { Job } from '../jobs.model';
 import { FormatSalaryPipe } from '../../pipes/salary.pipe';
 import { TimeAgoPipe } from '../../pipes/date-posted.pipe';
 
@@ -17,14 +17,9 @@ export class JobCard {
   readonly selectJob = output<string>();
 
   onClick() {
-    console.log(this.job());
     const currentJob = this.job();
     if (currentJob && !this.isLoading()) {
       this.selectJob.emit(currentJob._id);
     }
-  }
-
-  matchScore(): number {
-    return 94;
   }
 }

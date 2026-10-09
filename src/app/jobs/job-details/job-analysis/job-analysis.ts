@@ -4,6 +4,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Job } from '../../jobs.model';
 import { JobAnalysisDialog } from './dialog/job-analysis-dialog';
 import { JobAnalysisService } from '../../../services/job-analysis.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-job-analysis',
@@ -27,8 +28,11 @@ export class JobAnalysis {
       panelClass: 'custom-mat-dialog-container',
     });
 
-    dialogRef.afterClosed().subscribe(() => {
-      this.analysisService.resetState();
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe(() => {
+        this.analysisService.resetState();
+      });
   }
 }

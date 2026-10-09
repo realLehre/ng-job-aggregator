@@ -29,6 +29,56 @@
           <div class="h-32 w-full skeleton-shimmer"></div>
         </div>
       </div>
+    } @else if (jobDetailsError(); as err) {
+      <!-- Error State: API / Network Failure -->
+      <div
+        class="bg-red-500/10 border-l-4 border-red-600 p-8 md:p-12 space-y-6 font-mono text-xs shadow-xl"
+      >
+        <div class="space-y-2">
+          <h2 class="text-2xl md:text-3xl font-black font-['Syne'] text-[#201A23]">
+            Failed to Fetch Job Details
+          </h2>
+          <p class="text-xs text-[#201A23]/80 leading-relaxed">
+            Unable to fetch. The server may be offline or the network connection was interrupted.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-4 pt-4">
+          <button
+            (click)="retryLoad()"
+            class="px-5 py-2.5 bg-[#201A23] hover:bg-[#4A434F] text-[#D7D6D6] font-bold transition shadow cursor-pointer"
+          >
+            RETRY
+          </button>
+          <a
+            routerLink="/"
+            class="px-5 py-2.5 border border-[#201A23] text-[#201A23] hover:bg-[#201A23] hover:text-[#D7D6D6] font-bold transition flex items-center justify-center"
+          >
+            RETURN TO JOBS
+          </a>
+        </div>
+      </div>
+    } @else if (!isLoading() && !job()) {
+      <!-- Error State: Not Found / 404 -->
+      <div
+        class="bg-[#201A23]/5 border-l-4 border-[#A36B4E] p-8 md:p-12 space-y-6 font-mono text-xs shadow-xl"
+      >
+        <div class="space-y-2">
+          <h2 class="text-2xl md:text-3xl font-black font-['Syne'] text-[#201A23]">
+            Job Not Found
+          </h2>
+          <p class="text-xs text-[#201A23]/80 leading-relaxed">
+            The specified job does not exist or may have been archived by the publisher.
+          </p>
+        </div>
+        <div class="pt-4">
+          <a
+            routerLink="/"
+            class="px-6 py-3 bg-[#201A23] hover:bg-[#4A434F] text-[#D7D6D6] font-bold transition shadow inline-block"
+          >
+            &larr; RETURN TO JOBS
+          </a>
+        </div>
+      </div>
     } @else if (job(); as currentJob) {
       <div class="bg-[#201A23]/5 p-6 md:p-8 space-y-6 font-mono text-xs shadow-lg">
         <!-- Header -->

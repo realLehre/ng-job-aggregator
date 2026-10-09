@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { Job, JobAnalysisResult } from '../jobs/jobs.model';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, Subscription, switchMap } from 'rxjs';
+import { of, Subscription, switchMap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {
   AnalysisResponse,
