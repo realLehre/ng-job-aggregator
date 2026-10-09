@@ -100,10 +100,7 @@ export class JobAnalysisService {
 
           stepIndex++;
 
-          return this.http.post<AnalysisResponse>(
-            'http://localhost:2000/api/resume/analyze',
-            newFormData,
-          );
+          return this.http.post<AnalysisResponse>(`${this.apiUrl}analyze`, newFormData);
         }),
       )
       .subscribe({
