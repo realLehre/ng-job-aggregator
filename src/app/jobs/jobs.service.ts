@@ -1,22 +1,7 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, effect, untracked } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Job } from './jobs.model';
-
-export interface JobApiResponse {
-  status: string;
-  responseData: {
-    data: {
-      jobs: Job[];
-      count: number;
-      totalJobs: number;
-      page: number;
-      limit: number;
-      totalPages: number;
-    };
-  };
-  message: string;
-}
+import { Job, JobCardData, JobApiResponse } from './jobs.model';
 
 @Injectable({
   providedIn: 'root',
@@ -34,10 +19,30 @@ export class JobsService {
   readonly page = signal<number>(1);
   readonly limit = signal<number>(20);
 
+  // Active cursor signal sent to the API
+  readonly cursor = signal<string | null>(null);
+
+  // Cache mapping page number -> cursor for that page
+  cursorCache = new Map<number, string | null>();
+
   // Selected Job ID for fetching details resource
   readonly selectedJobId = signal<string | null>(null);
 
-  // httpResource for list of jobs
+  constructor() {
+    // Cache nextCursor when job resource updates successfully without triggering reactive loops
+    effect(() => {
+      const res = this.jobsResource.value();
+      const p = this.page();
+      if (res?.responseData?.data) {
+        const next = res.responseData.data.nextCursor ?? null;
+        untracked(() => {
+          this.cursorCache.set(p + 1, next);
+        });
+      }
+    });
+  }
+
+  // httpResource for list of jobs using cursor-based pagination and page tracking
   readonly jobsResource = httpResource<JobApiResponse>(() => {
     const q = this.searchQuery();
     const loc = this.selectedLocation();
@@ -47,6 +52,7 @@ export class JobsService {
     const start = this.startDate();
     const end = this.endDate();
     const p = this.page();
+    const cur = this.cursor();
     const l = this.limit();
 
     const params: Record<string, string | boolean> = {
@@ -54,6 +60,9 @@ export class JobsService {
       limit: l.toString(),
     };
 
+    if (cur) {
+      params['cursor'] = cur;
+    }
     if (q) params['search'] = q;
     if (loc && loc !== 'All') params['location'] = loc;
     if (remote) params['remote'] = true;
@@ -82,7 +91,7 @@ export class JobsService {
     if (this.jobsResource.hasValue()) {
       const res = this.jobsResource.value();
       if (res?.responseData?.data?.jobs) {
-        return res.responseData.data.jobs;
+        return res.responseData.data.jobs as unknown as Job[];
       }
     }
     return [];
@@ -113,17 +122,43 @@ export class JobsService {
     return this.jobs().length;
   });
 
+  readonly nextCursor = computed(() => {
+    if (this.jobsResource.hasValue()) {
+      const res = this.jobsResource.value();
+      if (res?.responseData?.data?.nextCursor !== undefined) {
+        return res.responseData.data.nextCursor;
+      }
+    }
+    return null;
+  });
+
   readonly totalPages = computed(() => {
     if (this.jobsResource.hasValue()) {
       const res = this.jobsResource.value();
-      if (res?.responseData?.data?.totalPages !== undefined) {
-        return res.responseData.data.totalPages;
+      if (
+        res?.responseData?.data?.totalJobs !== undefined &&
+        res?.responseData?.data?.limit !== undefined
+      ) {
+        const total = res.responseData.data.totalJobs;
+        const lim = res.responseData.data.limit;
+        return Math.max(1, Math.ceil(total / lim));
       }
     }
     const total = this.totalJobs();
     const limit = this.limit();
-    return Math.max(1, Math.ceil(total / limit));
+    const hasNext = !!this.nextCursor();
+    const current = this.page();
+    return Math.max(current + (hasNext ? 1 : 0), Math.ceil(total / limit) || 1);
   });
+
+  updateCursor(page: number) {
+    if (page === 1) {
+      this.cursorCache.clear();
+      this.cursor.set(null);
+    } else {
+      this.cursor.set(this.cursorCache.get(page) ?? null);
+    }
+  }
 
   readonly isLoading = computed(() => this.jobsResource.isLoading());
   readonly error = computed(() => this.jobsResource.error());

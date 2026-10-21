@@ -95,6 +95,8 @@ export class Jobs {
 
   changePage(page: number) {
     this.jobsService.page.set(page);
+
+    this.jobsService.updateCursor(page);
   }
 
   changePageSize(size: number) {

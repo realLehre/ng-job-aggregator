@@ -53,9 +53,8 @@ export interface Data {
   jobs: JobCardData[];
   count: number;
   totalJobs: number;
-  page: number;
   limit: number;
-  totalPages: number;
+  nextCursor: string | any;
 }
 
 export interface ResponseData {
